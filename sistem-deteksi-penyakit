@@ -1,0 +1,48 @@
+cek:-
+  write('-----------------------------------------'),nl,
+  write('=  DETEKSI PENYAKIT RADANG TENGGOROKAN  ='),nl,
+  write('-----------------------------------------'),nl,nl,
+  write('JAWAB DENGAN (y/n).'),nl,nl,
+  periksa,
+  hasil(Tul),
+  write(Tul),
+  retractall(obs(_)).	
+cek:-
+  write('MAAF, TIDAK DAPAT MENDETEKSI JENIS RADANG'),
+  retractall(obs(_)).
+periksa :-
+  gejala(Gejala,Jawaban),
+  write(Gejala),nl,
+  read(YesOrNo),nl,
+  YesOrNo= y,
+  assert(obs(Jawaban)),	
+  fail.
+periksa.
+gejala('Apakah tenggorokan anda kering dan gatal?', gatal).
+gejala('Apakah tenggorokan anda sakit saat menelan?', menelan).
+gejala('Apakah tenggorokan anda bengkak?', bengkak).
+gejala('Apakah anda susah untuk berbicara?', bicara).
+
+hasil('ANDA TIDAK TERKENA RADANG TENGGOROKAN'):-
+  not(obs(gatal)),
+  not(obs(menelan)),
+  not(obs(bengkak)),
+  not(obs(bicara)).
+
+hasil('ANDA MENGALAMI GEJALA RADANG TENGGOROKAN'):-
+  obs(gatal),
+  not(obs(menelan)),
+  not(obs(bengkak)),
+  not(obs(bicara)).
+
+hasil('ANDA MENDERITA RADANG TENGGOROKAN BIASA'):-
+  obs(gatal),
+  obs(menelan),
+  not(obs(bengkak)),
+  not(obs(bicara)).
+
+hasil('ANDA MENDERITA RADANG TENGGOROKAN AKUT'):-
+  obs(gatal),
+  obs(menelan),
+  obs(bengkak), 
+obs(bicara).
